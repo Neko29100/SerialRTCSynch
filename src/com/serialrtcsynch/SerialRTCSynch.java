@@ -25,7 +25,6 @@ public class SerialRTCSynch {
 
     public static void main(String[] args) {
 
-        // Set up GUI using FlatLaf theme
         try {
             UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
         } catch (Exception ex) {
@@ -39,7 +38,7 @@ public class SerialRTCSynch {
         ImageIcon icon = new ImageIcon(SerialRTCSynch.class.getResource("/ico64.png"));
         frame.setIconImage(icon.getImage());
         
-        frame.setLocationRelativeTo(null); // Center the frame
+        frame.setLocationRelativeTo(null); 
 
         JPanel panel = new JPanel();
         frame.add(panel);
@@ -50,60 +49,59 @@ public class SerialRTCSynch {
 
     private static void placeComponents(JPanel panel) {
         panel.setLayout(new BorderLayout());
-        panel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add padding around the panel
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical arrangement
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Arduino COM Port Communication");
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16)); // Custom font for the title
-        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // Center align the title
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); 
         topPanel.add(titleLabel);
 
         JPanel comPanel = new JPanel();
         comPanel.setLayout(new FlowLayout());
 
         JLabel portLabel = new JLabel("Select COM Port:");
-        portLabel.setFont(new Font("SansSerif", Font.BOLD, 14)); // Custom font
+        portLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
         comPanel.add(portLabel);
 
         portComboBox = new JComboBox<>();
         comPanel.add(portComboBox);
 
         setTimeButton = new JButton("Set Time");
-        setTimeButton.setFont(new Font("SansSerif", Font.BOLD, 14)); // Custom font
-        setTimeButton.setBackground(new Color(70, 130, 180)); // SteelBlue background
+        setTimeButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        setTimeButton.setBackground(new Color(70, 130, 180));
         setTimeButton.setForeground(Color.WHITE);
         comPanel.add(setTimeButton);
 
-        // Connection status dot
-        connectionStatusDot = new JLabel("\u25CF"); // Use Unicode for bullet character
+        connectionStatusDot = new JLabel("\u25CF");
         connectionStatusDot.setFont(new Font("Arial", Font.BOLD, 20));
-        connectionStatusDot.setForeground(Color.RED); // Initially red
+        connectionStatusDot.setForeground(Color.RED); 
         comPanel.add(connectionStatusDot);
 
         topPanel.add(comPanel);
         panel.add(topPanel, BorderLayout.NORTH);
 
         logArea = new JTextArea();
-        logArea.setEditable(false); // Set non-editable
-        logArea.setFocusable(false); // Prevent it from gaining focus
-        logArea.setFont(new Font("Monospaced", Font.PLAIN, 12)); // Custom font
-        logArea.setBackground(new Color(50, 50, 50)); // Dark background
-        logArea.setForeground(Color.LIGHT_GRAY); // Light text
+        logArea.setEditable(false);
+        logArea.setFocusable(false);
+        logArea.setFont(new Font("Monospaced", Font.PLAIN, 12)); 
+        logArea.setBackground(new Color(50, 50, 50));
+        logArea.setForeground(Color.LIGHT_GRAY); 
         DefaultCaret caret = (DefaultCaret) logArea.getCaret();
-        caret.setVisible(false); // Hide the caret
-        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE); // Prevent caret updates
+        caret.setVisible(false);
+        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE); /
 
         scrollPane = new JScrollPane(logArea);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY)); // Border around the scroll pane
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY)); 
         panel.add(scrollPane, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BorderLayout());
         clockLabel = new JLabel(" ", JLabel.RIGHT);
-        clockLabel.setFont(new Font("SansSerif", Font.PLAIN, 16)); // Custom font
-        clockLabel.setBorder(new EmptyBorder(10, 3, 10, 3)); // Add padding around the label
+        clockLabel.setFont(new Font("SansSerif", Font.PLAIN, 16));
+        clockLabel.setBorder(new EmptyBorder(10, 3, 10, 3)); 
         bottomPanel.add(clockLabel, BorderLayout.SOUTH);
         panel.add(bottomPanel, BorderLayout.SOUTH);
 
@@ -123,7 +121,7 @@ public class SerialRTCSynch {
         });
         clockTimer.start();
 
-        // Timer to refresh COM ports every 2 seconds
+        // Refresh COM ports every 2 seconds
         comPortRefreshTimer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -159,7 +157,7 @@ public class SerialRTCSynch {
                 String selectedPort = (String) portComboBox.getSelectedItem();
                 comPort = SerialPort.getCommPort(selectedPort);
 
-                comPort.setComPortParameters(9600, 8, 1, 0); // Set parameters: Baud Rate, Data Bits, Stop Bits, Parity
+                comPort.setComPortParameters(9600, 8, 1, 0); // Set com parameters
                 comPort.setComPortTimeouts(SerialPort.TIMEOUT_SCANNER, 0, 0);
 
                 if (comPort.openPort()) {
@@ -189,7 +187,6 @@ public class SerialRTCSynch {
                     }
                     logArea.append("> Sent : " + formattedDateTime + "\n");
 
-                    // Update connection status indicator to green
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
@@ -202,7 +199,6 @@ public class SerialRTCSynch {
                     comPort.closePort();
                     logArea.append("> Port closed.\n");
 
-                    // Update connection status indicator to red after a delay
                     Thread.sleep(2000);
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
