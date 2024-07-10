@@ -91,7 +91,7 @@ public class SerialRTCSynch {
         logArea.setForeground(Color.LIGHT_GRAY); 
         DefaultCaret caret = (DefaultCaret) logArea.getCaret();
         caret.setVisible(false);
-        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE); /
+        caret.setUpdatePolicy(DefaultCaret.NEVER_UPDATE); 
 
         scrollPane = new JScrollPane(logArea);
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.GRAY)); 
@@ -165,9 +165,9 @@ public class SerialRTCSynch {
                     comPort.setDTR();
                     comPort.setRTS();
                     // Allow some time for the Arduino to reset and initialize
-                    logArea.append("> Waiting for board reset. \n");
+                    logArea.append("> Waiting for initialisation. \n");
                     
-                    Thread.sleep(5000);
+                    Thread.sleep(100);
                     // Send current time to Arduino
                     LocalDateTime now = LocalDateTime.now();
                     DateTimeFormatter arduinoFormatter = DateTimeFormatter.ofPattern("yy, M, d, H, m, s", Locale.ENGLISH);
@@ -194,7 +194,7 @@ public class SerialRTCSynch {
                         }
                     });
                     
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                     // Close the port
                     comPort.closePort();
                     logArea.append("> Port closed.\n");
